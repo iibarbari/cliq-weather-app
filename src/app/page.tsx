@@ -1,13 +1,14 @@
 import Container from '@/components/Container';
-import Section from '@/components/Section';
 import FormGroup from '../components/FormGroup';
 import Label from '@/components/Label';
 import Input from '@/components/Input';
+import styles from "./page.module.css";
+import Button from '@/components/Button';
 
 export default function Home() {
   return (
-    <>
-      <Section style={{ minHeight: '20vh', display: 'flex', alignItems: 'center' }}>
+    <div className={styles.page}>
+      <section className={styles["city-name-form-section"]}>
         <Container>
           <form>
             <fieldset>
@@ -19,7 +20,20 @@ export default function Home() {
             </fieldset>
           </form>
         </Container>
-      </Section>
-    </>
+      </section>
+
+      <section className={styles["weather-summary-section"]}>
+        <Container>
+          <div className={styles.wrapper}>
+            <h3 className={styles.title}>Amsterdam, NL</h3>
+
+            <div className={styles["degree-wrapper"]}>
+              <p className={styles.degree}>7°</p>
+            </div>
+            <p>Thursday, light rain</p>
+          </div>
+        </Container>
+      </section>
+    </div>
   );
 }
