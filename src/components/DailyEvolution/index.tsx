@@ -6,6 +6,7 @@ import UserLocationContext from "@/contexts/UserLocationContext";
 import getUrl from "@/utils/getUrl";
 import dayjs from "dayjs";
 import classNames from "classnames";
+import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 
 type DailyEvolution = {
   DateTime: string,
@@ -22,17 +23,25 @@ const MARGIN = 20;
 const INNER_HEIGHT = HEIGHT - MARGIN * 2;
 const INNER_WIDTH = WIDTH - MARGIN * 2;
 
-const observerOptions = {
-  root: null,
-  rootMargin: "0px",
-  threshold: 0.8
-};
-
 export default function DailyEvolution() {
   const ref = useRef<HTMLDivElement>(null);
   const { city } = useContext(UserLocationContext);
   const [animated, setAnimated] = useState<boolean>(false);
   const [dailyEvolutions, setDailyEvolutions] = useState<Array<DailyEvolution>>([]);
+
+  useIntersectionObserver({
+    callback: (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setAnimated(true);
+          observer.unobserve(entry.target);
+        } else {
+          setAnimated(false);
+        }
+      });
+    },
+    ref
+  });
 
   useEffect(() => {
     if (city === null) return;
@@ -54,37 +63,6 @@ export default function DailyEvolution() {
 
     getDailyEvolution();
   }, [city]);
-
-  useEffect(() => {
-    if (city === null) return;
-
-    function startAnimation(entries: IntersectionObserverEntry[], observer: IntersectionObserver) {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setAnimated(true);
-          observer.unobserve(entry.target);
-        } else {
-          setAnimated(false);
-        }
-      });
-    }
-
-    let observerRefValue = null;
-
-    const observer = new IntersectionObserver((entries) => startAnimation(entries, observer), observerOptions);
-
-    if (ref.current) {
-      observer.observe(ref.current);
-      observerRefValue = ref.current;
-    }
-
-    return () => {
-      if (observerRefValue) {
-        observer.unobserve(observerRefValue);
-      }
-    };
-  }, [city, ref]);
-
 
   const hydratedData = useMemo<Array<{ date: string; value: number }>>(() => {
     if (dailyEvolutions.length === 0) return [];

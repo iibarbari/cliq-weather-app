@@ -3,7 +3,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-block: 5rem;
 
     .title {
         font-size: 2.5rem;

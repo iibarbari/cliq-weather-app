@@ -1,6 +1,4 @@
 .daily_evolution {
-    padding-block: 5rem;
-
     .title {
         font-size: 2.5rem;
         font-weight: 700;
@@ -11,6 +9,13 @@
 
     .line_graph {
         display: block;
+
+        &.animate {
+            path {
+                stroke-dasharray: 1000;
+                stroke-dashoffset: 1000;
+            }
+        }
     }
 }
 

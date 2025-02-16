@@ -3,13 +3,10 @@
         background-color: var(--background-dark);
     }
 
-    .city_name_form_section {
-        align-items: center;
-        display: flex;
-
-        form {
-            margin-inline: auto;
-            max-width: 600px;
-        }
+    .city_name_form,
+    .current_weather,
+    .daily_evolution,
+    .five_day_forecast {
+        padding-block: 5rem;
     }
 }
