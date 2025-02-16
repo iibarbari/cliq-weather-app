@@ -17,15 +17,17 @@ export type City = {
 }
 
 export type UserLocationContextType = {
-  geoLocation: GeolocationCoordinates | null;
   city: City | null;
   setCity: Dispatch<SetStateAction<UserLocationContextType["city"]>>
+  temperatureUnit: "imperial" | "metric";
+  setTemperatureUnit: Dispatch<SetStateAction<UserLocationContextType["temperatureUnit"]>>;
 }
 
 const UserLocationContext = createContext<UserLocationContextType>({
-  geoLocation: null,
   city: null,
   setCity: () => {},
+  temperatureUnit: "metric",
+  setTemperatureUnit: () => {},
 });
 
 export default UserLocationContext;

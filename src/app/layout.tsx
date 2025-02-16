@@ -26,13 +26,11 @@ export default function RootLayout({
   return (
     <html lang="en">
     <body className={classNames(roboto.variable)}>
-    <UserLocationContextProvider>
       <Header />
 
       <main>
         {children}
       </main>
-    </UserLocationContextProvider>
     </body>
     </html>
   );

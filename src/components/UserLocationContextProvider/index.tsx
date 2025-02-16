@@ -7,8 +7,7 @@ export default function UserLocationContextProvider({ children }: { children: Re
   const [permission, setPermission] = useState<PermissionState | null>(null);
   const [geoLocation, setGeoLocation] = useState<GeolocationCoordinates | null>(null);
   const [city, setCity] = useState<UserLocationContextType["city"] | null>(null);
-
-  console.log({ city });
+  const [temperatureUnit, setTemperatureUnit] = useState<UserLocationContextType["temperatureUnit"]>("metric");
 
   useEffect(() => {
     navigator.permissions.query({ name: 'geolocation' }).then((result) => {
@@ -56,11 +55,16 @@ export default function UserLocationContextProvider({ children }: { children: Re
     getCityName(latitude, longitude).then((city) => setCity(city));
   }, [geoLocation]);
 
+  if (city) {
+    console.log(`${city.AdministrativeArea.LocalizedName}, ${city.Country.ID}`, "context");
+  }
+
   const values = useMemo<UserLocationContextType>(() => ({
-    geoLocation,
     city,
     setCity,
-  }), [geoLocation]);
+    temperatureUnit,
+    setTemperatureUnit,
+  }), [city, temperatureUnit, geoLocation]);
 
   return (
     <UserLocationContext.Provider value={values}>

@@ -1,16 +1,14 @@
-import { JSX, PropsWithoutRef } from 'react';
+"use client";
+
+import { JSX, PropsWithoutRef, useContext, useEffect, useState } from 'react';
 import getUrl from '@/utils/getUrl';
 import dayjs from 'dayjs';
 import styles from "./FiveDayForecast.module.css";
 import classNames from 'classnames';
 import Image from 'next/image';
+import UserLocationContext from '@/contexts/UserLocationContext';
 
-type FiveDayForecastProps = PropsWithoutRef<JSX.IntrinsicElements["div"]> & {
-  cityKey: string;
-  cityName: string;
-  countryCode: string;
-  temperatureUnit: "imperial" | "metric";
-};
+type FiveDayForecastProps = PropsWithoutRef<JSX.IntrinsicElements["div"]>;
 
 type Forecast = {
   Date: string;
@@ -41,24 +39,32 @@ type FiveDayForecast = {
   }
 }
 
-export default async function FiveDayForecast({
-  className,
-  cityKey,
-  temperatureUnit,
-  ...props
-}: FiveDayForecastProps) {
-  const url = getUrl(`/forecasts/v1/daily/5day/${cityKey}`, { metric: temperatureUnit === "metric" });
-  const res = await fetch(url);
-  const data: FiveDayForecast = await res.json();
+export default function FiveDayForecast({ className, ...props }: FiveDayForecastProps) {
+  const { city, temperatureUnit } = useContext(UserLocationContext);
+  const [dailyForecasts, setDailyForecasts] = useState<Array<Forecast>>([]);
 
-  const { DailyForecasts } = data;
+  useEffect(() => {
+    async function getFiveDayForecast() {
+      if (!city) return;
+
+      const url = getUrl(`/forecasts/v1/daily/5day/${city.Key}`, { metric: temperatureUnit === "metric" });
+      const res = await fetch(url);
+      const data: FiveDayForecast = await res.json();
+
+      setDailyForecasts(data.DailyForecasts);
+    }
+
+    getFiveDayForecast();
+  }, [city]);
+
+  if (!city) return null;
 
   return (
     <div {...props} className={classNames(styles["five-day-forecast"], className)}>
       <h2 className={styles.title}>5 Day Forecast</h2>
 
       <div className={styles.wrapper}>
-        {DailyForecasts.map(({ Date, Day: { Icon, IconPhrase }, Temperature: { Maximum, Minimum } }) => (
+        {dailyForecasts.map(({ Date, Day: { Icon, IconPhrase }, Temperature: { Maximum, Minimum } }) => (
           <div className={styles.card} key={Date}>
             <p className={styles.date}>{`${dayjs(Date).format("ddd").toUpperCase()} ${dayjs(Date).format("DD")}`}</p>
 
