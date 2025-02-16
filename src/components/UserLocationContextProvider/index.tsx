@@ -55,10 +55,6 @@ export default function UserLocationContextProvider({ children }: { children: Re
     getCityName(latitude, longitude).then((city) => setCity(city));
   }, [geoLocation]);
 
-  if (city) {
-    console.log(`${city.AdministrativeArea.LocalizedName}, ${city.Country.ID}`, "context");
-  }
-
   const values = useMemo<UserLocationContextType>(() => ({
     city,
     setCity,

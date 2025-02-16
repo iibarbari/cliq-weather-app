@@ -29,12 +29,6 @@ export default function CurrentWeather({ className, ...props }: CurrentWeatherPr
   const { city, temperatureUnit } = useContext(UserLocationContext);
   const [conditions, setConditions] = useState<CurrentConditionsRes | null>(null);
 
-  if (city) {
-    console.log(`${city.AdministrativeArea.LocalizedName}, ${city.Country.ID}`);
-  } else {
-    console.log("city is null");
-  }
-
   useEffect(() => {
     if (city === null) return;
 

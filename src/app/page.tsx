@@ -4,6 +4,7 @@ import CurrentWeather from '../components/CurrentWeather';
 import FiveDayForecast from '../components/FiveDayForecast';
 import CitySearch from '@/components/CitySearch';
 import UserLocationContextProvider from '@/components/UserLocationContextProvider';
+import DailyEvolution from '@/components/DailyEvolution';
 
 export default function Home() {
 
@@ -25,6 +26,12 @@ export default function Home() {
         <section>
           <Container>
             <FiveDayForecast />
+          </Container>
+        </section>
+
+        <section className={styles.dark}>
+          <Container>
+            <DailyEvolution />
           </Container>
         </section>
       </UserLocationContextProvider>

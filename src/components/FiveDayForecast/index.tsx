@@ -61,7 +61,7 @@ export default function FiveDayForecast({ className, ...props }: FiveDayForecast
 
   return (
     <div {...props} className={classNames(styles["five-day-forecast"], className)}>
-      <h2 className={styles.title}>5 Day Forecast</h2>
+      <h2 className={styles.title}>5-Day Forecast</h2>
 
       <div className={styles.wrapper}>
         {dailyForecasts.map(({ Date, Day: { Icon, IconPhrase }, Temperature: { Maximum, Minimum } }) => (
@@ -74,6 +74,7 @@ export default function FiveDayForecast({ className, ...props }: FiveDayForecast
                 alt={IconPhrase}
                 fill={true}
                 loading="lazy"
+                sizes="80px"
               />
             </div>
 

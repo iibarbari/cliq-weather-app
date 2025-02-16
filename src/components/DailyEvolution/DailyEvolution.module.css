@@ -1,0 +1,35 @@
+.daily_evolution {
+    padding-block: 5rem;
+
+    .title {
+        font-weight: 900;
+        font-size: 2.5rem;
+        line-height: 1.2;
+        margin-bottom: 3rem;
+    }
+
+    .line_graph {
+        display: block;
+    }
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+    .daily_evolution {
+        .line_graph {
+            &.animate {
+                path {
+                    stroke-dasharray: 1000;
+                    stroke-dashoffset: 1000;
+                    animation: dash 3s linear forwards;
+                }
+            }
+        }
+    }
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
