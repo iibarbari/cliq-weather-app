@@ -1,25 +1,15 @@
 import Container from '@/components/Container';
 import styles from "./page.module.css";
 import CurrentWeather from '../components/CurrentWeather';
-import FormGroup from '@/components/FormGroup';
-import Label from '@/components/Label';
-import Input from '@/components/Input';
 import FiveDayForecast from '../components/FiveDayForecast';
+import CitySearch from '@/components/CitySearch';
 
 export default function Home() {
   return (
     <div className={styles.page}>
       <section className={styles["city-name-form-section"]}>
         <Container>
-          <form>
-            <fieldset>
-              <FormGroup id="city">
-                <Label>City Name</Label>
-
-                <Input type="text" />
-              </FormGroup>
-            </fieldset>
-          </form>
+          <CitySearch />
         </Container>
       </section>
 

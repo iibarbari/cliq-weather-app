@@ -4,7 +4,6 @@ import dayjs from 'dayjs';
 import styles from "./FiveDayForcast.module.css";
 import classNames from 'classnames';
 import Image from 'next/image';
-import { notFound } from 'next/navigation';
 
 type FiveDayForecastProps = PropsWithoutRef<JSX.IntrinsicElements["div"]> & {
   cityKey: string;
@@ -61,7 +60,7 @@ export default async function FiveDayForecast({
       <div className={styles.wrapper}>
         {DailyForecasts.map(({ Date, Day: { Icon, IconPhrase }, Temperature: { Maximum, Minimum } }) => (
           <div className={styles.card} key={Date}>
-              <p className={styles.date}>{`${dayjs(Date).format("ddd").toUpperCase()} ${dayjs(Date).format("DD")}`}</p>
+            <p className={styles.date}>{`${dayjs(Date).format("ddd").toUpperCase()} ${dayjs(Date).format("DD")}`}</p>
 
             <div className={styles.icon}>
               <Image
@@ -69,7 +68,6 @@ export default async function FiveDayForecast({
                 alt={IconPhrase}
                 fill={true}
                 loading="lazy"
-                objectFit="contain"
               />
             </div>
 
