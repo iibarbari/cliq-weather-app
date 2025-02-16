@@ -1,5 +1,6 @@
 import { render } from "@testing-library/react";
 import Header from "@/components/Header";
+import "@testing-library/jest-dom";
 
 describe("Header", () => {
   it("displays right brand name", () => {
@@ -16,19 +17,41 @@ describe("Header", () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it("brand name is clickable", () => {
-    const { getByText } = render(<Header />);
+  it("brand name is a link", () => {
+    const { getByRole } = render(<Header />);
 
-    const brandName = getByText("React Weather");
+    const linkElement = getByRole("link", { name: /React Weather/i });
 
-    expect(brandName.tagName).toBe("A");
-  })
+    expect(linkElement).toBeInTheDocument();
+
+    expect(linkElement.tagName).toBe("A");
+  });
 
   it("brand name has correct href", () => {
-    const { getByText } = render(<Header />);
+    const { getByRole } = render(<Header />);
 
-    const brandName = getByText("React Weather");
+    const linkElement = getByRole("link", { name: /React Weather/i });
 
-    expect(brandName.getAttribute("href")).toBe("/");
+    expect(linkElement).toHaveAttribute("href", "/");
+  });
+
+  it("all header links are under nav tag", () => {
+    const { container } = render(<Header />);
+
+    const navElement = container.querySelector("nav");
+
+    expect(navElement).toBeInTheDocument();
+
+    if (navElement === null) {
+      throw new Error("nav element is null");
+    }
+
+    const links = navElement.querySelectorAll("a");
+
+    expect(links.length).toBeGreaterThan(0);
+
+    links.forEach((link) => {
+      expect(navElement.contains(link)).toBeTruthy();
+    });
   });
 });
