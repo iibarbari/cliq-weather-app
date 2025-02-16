@@ -60,7 +60,7 @@ export default function FiveDayForecast({ className, ...props }: FiveDayForecast
   if (!city) return null;
 
   return (
-    <div {...props} className={classNames(styles["five-day-forecast"], className)}>
+    <div {...props} className={classNames(styles.five_day_forecast, className)}>
       <h2 className={styles.title}>5 Day Forecast</h2>
 
       <div className={styles.wrapper}>

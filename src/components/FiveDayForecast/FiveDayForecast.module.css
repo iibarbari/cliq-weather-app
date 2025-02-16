@@ -1,27 +1,27 @@
-.five-day-forecast {
+.five_day_forecast {
     padding-block: 5rem;
 
     .title {
-        font-weight: 700;
-        font-size: 2.25rem;
-        line-height: 1.2;
         color: var(--primary);
+        font-size: 2.25rem;
+        font-weight: 700;
+        line-height: 1.2;
         margin-bottom: 3rem;
         text-transform: uppercase;
     }
 
     .wrapper {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
         gap: 3rem;
+        grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
         justify-content: center;
 
         .card {
-            background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(196, 196, 196, 0.0877044) 60%, rgba(196, 196, 196, 0.2) 100%);
-            padding-inline: 1rem;
-            padding-bottom: 2rem;
-            padding-top: 10rem;
+            background: linear-gradient(180deg, rgba(196, 196, 196, 0%) 0%, rgba(196, 196, 196, 8.77%) 60%, rgba(196, 196, 196, 20%) 100%);
             border-radius: 1.5rem;
+            padding-bottom: 2rem;
+            padding-inline: 1rem;
+            padding-top: 10rem;
 
             .date {
                 font-size: 1.5rem;
@@ -31,36 +31,35 @@
             }
 
             .degree {
-                display: flex;
-                flex-direction: row;
-                flex-wrap: wrap;
                 align-items: flex-end;
+                display: flex;
+                flex-flow: row wrap;
                 gap: 1rem;
                 margin-bottom: 1rem;
 
                 .high {
                     color: var(--primary);
-                    font-weight: 900;
                     font-size: 3rem;
+                    font-weight: 900;
                 }
 
                 .low {
-                    font-weight: 900;
                     font-size: 2.4rem;
+                    font-weight: 900;
                     line-height: 1.2;
                 }
             }
 
             .summary {
-                font-weight: 900;
                 font-size: 1.125rem;
+                font-weight: 900;
                 line-height: 1.2;
             }
 
             .icon {
-                position: relative;
                 display: block;
                 height: 5rem;
+                position: relative;
                 width: 5rem;
 
                 img {

@@ -1,27 +1,27 @@
-.current-weather {
+.current_weather {
+    align-items: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     padding-block: 5rem;
 
     .title {
-        font-weight: 900;
         font-size: 2.5rem;
+        font-weight: 900;
         line-height: 1.2;
     }
 
-    .degree-wrapper {
+    .degree_wrapper {
         .degree {
-            font-size: 6rem;
             color: var(--primary);
+            font-size: 6rem;
             line-height: 1.16;
         }
     }
 
     .summary {
+        color: var(--foreground);
         font-size: 1.5rem;
         line-height: 1.16;
-        color: var(--foreground);
     }
 }

@@ -3,13 +3,13 @@
         background-color: var(--background-dark);
     }
 
-    .city-name-form-section {
-        display: flex;
+    .city_name_form_section {
         align-items: center;
+        display: flex;
 
         form {
-            max-width: 600px;
             margin-inline: auto;
+            max-width: 600px;
         }
     }
 }

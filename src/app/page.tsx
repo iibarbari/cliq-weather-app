@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <UserLocationContextProvider>
-        <section className={styles["city-name-form-section"]}>
+        <section className={styles.city_name_form_section}>
           <Container>
             <CitySearch />
           </Container>

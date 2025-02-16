@@ -57,12 +57,12 @@ export default function CurrentWeather({ className, ...props }: CurrentWeatherPr
     : conditions.Temperature.Imperial;
 
   return (
-    <div {...props} className={classNames(styles["current-weather"], className)}>
+    <div {...props} className={classNames(styles.current_weather, className)}>
       <h2 className={styles.title}>
         {`${ city.AdministrativeArea.LocalizedName }, ${city.Country.ID}`}
       </h2>
 
-      <div className={styles["degree-wrapper"]}>
+      <div className={styles.degree_wrapper}>
         <p className={styles.degree}>{`${Value}°${Unit}`}</p>
       </div>
 
