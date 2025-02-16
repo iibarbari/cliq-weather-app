@@ -60,6 +60,10 @@
                 display: block;
                 height: 5rem;
                 width: 5rem;
+
+                img {
+                    object-fit: contain;
+                }
             }
         }
     }

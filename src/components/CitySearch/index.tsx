@@ -23,7 +23,10 @@ export default function CitySearch() {
 
         const res = await fetch(url);
 
-        if (!res.ok) throw new Error("Failed to fetch search results");
+        if (!res.ok) {
+          setHasError(true);
+          return;
+        }
 
         const data = await res.json();
 

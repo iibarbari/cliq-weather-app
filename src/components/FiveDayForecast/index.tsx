@@ -1,7 +1,7 @@
 import { JSX, PropsWithoutRef } from 'react';
 import getUrl from '@/utils/getUrl';
 import dayjs from 'dayjs';
-import styles from "./FiveDayForcast.module.css";
+import styles from "./FiveDayForecast.module.css";
 import classNames from 'classnames';
 import Image from 'next/image';
 
