@@ -1,0 +1,69 @@
+.five-day-forecast {
+    .title {
+        font-weight: 700;
+        font-size: 2.25rem;
+        line-height: 1.2;
+        color: var(--primary);
+        margin-bottom: 3rem;
+        text-transform: uppercase;
+    }
+
+    .wrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+        gap: 3rem;
+        justify-content: center;
+
+        .card {
+            background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(196, 196, 196, 0.0877044) 60%, rgba(196, 196, 196, 0.2) 100%);
+            padding-inline: 1rem;
+            padding-bottom: 2rem;
+            padding-top: 10rem;
+            border-radius: 1.5rem;
+
+            .date {
+                font-size: 1.5rem;
+                font-weight: 900;
+                line-height: 1.2;
+                margin-bottom: 0.5rem;
+            }
+
+            .degree {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: flex-end;
+                gap: 1rem;
+                margin-bottom: 1rem;
+
+                .high {
+                    color: var(--primary);
+                    font-weight: 900;
+                    font-size: 3rem;
+                }
+
+                .low {
+                    font-weight: 900;
+                    font-size: 2.4rem;
+                    line-height: 1.2;
+                }
+            }
+
+            .summary {
+                font-weight: 900;
+                font-size: 1.125rem;
+                line-height: 1.2;
+            }
+
+            .icon {
+                position: relative;
+                display: block;
+                height: 5rem;
+                width: 5rem;
+            }
+        }
+    }
+}
+
+
+

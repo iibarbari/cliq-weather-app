@@ -1,44 +1,19 @@
 .page {
-    .city-name-form-section {
+    section {
         padding-block: 5rem;
+
+        &.dark {
+            background-color: var(--background-dark);
+        }
+    }
+
+    .city-name-form-section {
         display: flex;
         align-items: center;
 
         form {
             max-width: 600px;
             margin-inline: auto;
-        }
-    }
-
-    .weather-summary-section {
-        padding-block: 5rem;
-        background-color: var(--background-dark);
-
-        .wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-
-            .title {
-                font-weight: 900;
-                font-size: 2.5rem;
-                line-height: 1.2;
-            }
-
-            .degree-wrapper {
-                .degree {
-                    font-size: 6rem;
-                    color: var(--primary);
-                    line-height: 1.16;
-                }
-            }
-
-            .summary {
-                font-size: 1.5rem;
-                line-height: 1.16;
-                color: var(--foreground);
-            }
         }
     }
 }

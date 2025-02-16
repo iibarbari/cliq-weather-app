@@ -1,9 +1,10 @@
 import Container from '@/components/Container';
-import FormGroup from '../components/FormGroup';
+import styles from "./page.module.css";
+import CurrentWeather from '../components/CurrentWeather';
+import FormGroup from '@/components/FormGroup';
 import Label from '@/components/Label';
 import Input from '@/components/Input';
-import styles from "./page.module.css";
-import Button from '@/components/Button';
+import FiveDayForecast from '../components/FiveDayForecast';
 
 export default function Home() {
   return (
@@ -22,16 +23,25 @@ export default function Home() {
         </Container>
       </section>
 
-      <section className={styles["weather-summary-section"]}>
+      <section className={styles.dark}>
         <Container>
-          <div className={styles.wrapper}>
-            <h3 className={styles.title}>Amsterdam, NL</h3>
+          <CurrentWeather
+            cityKey="1288697"
+            cityName="Ankara"
+            countryCode="TR"
+            temperatureUnit="metric"
+          />
+        </Container>
+      </section>
 
-            <div className={styles["degree-wrapper"]}>
-              <p className={styles.degree}>7°</p>
-            </div>
-            <p>Thursday, light rain</p>
-          </div>
+      <section>
+        <Container>
+          <FiveDayForecast
+            cityKey="1288697"
+            cityName="Ankara"
+            countryCode="TR"
+            temperatureUnit="metric"
+          />
         </Container>
       </section>
     </div>
