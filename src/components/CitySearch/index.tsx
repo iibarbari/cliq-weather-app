@@ -1,10 +1,10 @@
 "use client";
 
-import styles from './CitySearch.module.css';
-import { useContext, useEffect, useState } from 'react';
-import getUrl from '@/utils/getUrl';
-import classNames from 'classnames';
-import UserLocationContext, { City } from '@/contexts/UserLocationContext';
+import styles from "./CitySearch.module.css";
+import { useContext, useEffect, useState } from "react";
+import getUrl from "@/utils/getUrl";
+import classNames from "classnames";
+import UserLocationContext, { City } from "@/contexts/UserLocationContext";
 
 export default function CitySearch() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -55,12 +55,12 @@ export default function CitySearch() {
         <label htmlFor="city-name">City Name</label>
 
         <input
-          type="text"
-          id="city-name"
-          placeholder="Enter city name"
-          onChange={(e) => setSearch(e.target.value)}
-          value={search}
           autoComplete="off"
+          id="city-name"
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Enter city name"
+          type="text"
+          value={search}
         />
 
         {hasError && (
@@ -84,7 +84,7 @@ export default function CitySearch() {
                 setCity(result);
               }}
             >
-              {result.AdministrativeArea.LocalizedName}, {result.Country.ID}
+              {`${result.AdministrativeArea.LocalizedName}, ${result.Country.ID}`}
             </button>
           ))
         )}

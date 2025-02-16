@@ -1,5 +1,5 @@
-import { JSX, PropsWithoutRef } from 'react';
-import classNames from 'classnames';
+import { JSX, PropsWithoutRef } from "react";
+import classNames from "classnames";
 import styles from "./Container.module.css";
 
 type ContainerProps = PropsWithoutRef<JSX.IntrinsicElements["div"]>;

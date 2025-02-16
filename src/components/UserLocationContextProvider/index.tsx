@@ -1,7 +1,7 @@
 "use client";
 
 import UserLocationContext, { City, UserLocationContextType } from "@/contexts/UserLocationContext";
-import { ReactNode, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from "react";
 
 export default function UserLocationContextProvider({ children }: { children: ReactNode }) {
   const [permission, setPermission] = useState<PermissionState | null>(null);
@@ -10,7 +10,7 @@ export default function UserLocationContextProvider({ children }: { children: Re
   const [temperatureUnit, setTemperatureUnit] = useState<UserLocationContextType["temperatureUnit"]>("metric");
 
   useEffect(() => {
-    navigator.permissions.query({ name: 'geolocation' }).then((result) => {
+    navigator.permissions.query({ name: "geolocation" }).then((result) => {
       setPermission(result.state);
     });
   }, []);
@@ -18,7 +18,7 @@ export default function UserLocationContextProvider({ children }: { children: Re
   useEffect(() => {
     if (permission === null) return;
 
-    if (permission === 'granted' || permission === 'prompt') {
+    if (permission === "granted" || permission === "prompt") {
       navigator.geolocation.getCurrentPosition((position) => {
         setGeoLocation(position.coords);
       });
@@ -33,7 +33,7 @@ export default function UserLocationContextProvider({ children }: { children: Re
     async function getCityName(latitude: number, longitude: number) {
       const apiKey = process.env.NEXT_PUBLIC_ACCUWEATHER_API_KEY;
 
-      if (!apiKey) throw new Error('API key is required');
+      if (!apiKey) throw new Error("API key is required");
 
       const searchParams = new URLSearchParams({
         apikey: apiKey,
@@ -48,7 +48,7 @@ export default function UserLocationContextProvider({ children }: { children: Re
 
         return data;
       } catch {
-        throw new Error('Failed to fetch city name');
+        throw new Error("Failed to fetch city name");
       }
     }
 
@@ -58,8 +58,8 @@ export default function UserLocationContextProvider({ children }: { children: Re
   const values = useMemo<UserLocationContextType>(() => ({
     city,
     setCity,
-    temperatureUnit,
     setTemperatureUnit,
+    temperatureUnit,
   }), [city, temperatureUnit]);
 
   return (

@@ -1,8 +1,8 @@
-import Link from 'next/link';
-import Container from '@/components/Container';
-import styles from './Header.module.css';
-import { JSX, PropsWithoutRef } from 'react';
-import classNames from 'classnames';
+import Link from "next/link";
+import Container from "@/components/Container";
+import styles from "./Header.module.css";
+import { JSX, PropsWithoutRef } from "react";
+import classNames from "classnames";
 
 type HeaderProps = Omit<PropsWithoutRef<JSX.IntrinsicElements["header"]>, "children">
 

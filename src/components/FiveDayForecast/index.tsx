@@ -1,26 +1,26 @@
 "use client";
 
-import { JSX, PropsWithoutRef, useContext, useEffect, useState } from 'react';
-import getUrl from '@/utils/getUrl';
-import dayjs from 'dayjs';
+import { JSX, PropsWithoutRef, useContext, useEffect, useState } from "react";
+import getUrl from "@/utils/getUrl";
+import dayjs from "dayjs";
 import styles from "./FiveDayForecast.module.css";
-import classNames from 'classnames';
-import Image from 'next/image';
-import UserLocationContext from '@/contexts/UserLocationContext';
+import classNames from "classnames";
+import Image from "next/image";
+import UserLocationContext from "@/contexts/UserLocationContext";
 
 type FiveDayForecastProps = PropsWithoutRef<JSX.IntrinsicElements["div"]>;
 
 type Forecast = {
   Date: string;
-  Day: { Icon: number, IconPhrase: string, HasPrecipitation: boolean };
+  Day: { HasPrecipitation: boolean, Icon: number, IconPhrase: string };
   EpochDate: number;
   Link: string;
   MobileLink: "http://www.accuweather.com/en/tr/saimekadin/1288697/daily-weather-forecast/1288697?unit=c&lang=en-us"
-  Night: { Icon: number, IconPhrase: string, HasPrecipitation: boolean }
+  Night: { HasPrecipitation: boolean, Icon: number, IconPhrase: string }
   Sources: Array<string>;
   Temperature: {
-    Maximum: { Value: number, Unit: string, UnitType: number };
-    Minimum: { Value: number, Unit: string, UnitType: number };
+    Maximum: { Unit: string, UnitType: number, Value: number };
+    Minimum: { Unit: string, UnitType: number, Value: number };
   }
 }
 
@@ -61,7 +61,7 @@ export default function FiveDayForecast({ className, ...props }: FiveDayForecast
 
   return (
     <div {...props} className={classNames(styles["five-day-forecast"], className)}>
-      <h2 className={styles.title}>5-Day Forecast</h2>
+      <h2 className={styles.title}>5 Day Forecast</h2>
 
       <div className={styles.wrapper}>
         {dailyForecasts.map(({ Date, Day: { Icon, IconPhrase }, Temperature: { Maximum, Minimum } }) => (
@@ -70,11 +70,11 @@ export default function FiveDayForecast({ className, ...props }: FiveDayForecast
 
             <div className={styles.icon}>
               <Image
-                src={`https://developer.accuweather.com/sites/default/files/${String(Icon).padStart(2, '0')}-s.png`}
                 alt={IconPhrase}
                 fill={true}
                 loading="lazy"
                 sizes="80px"
+                src={`https://developer.accuweather.com/sites/default/files/${String(Icon).padStart(2, "0")}-s.png`}
               />
             </div>
 

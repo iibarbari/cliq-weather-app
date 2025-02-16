@@ -1,11 +1,11 @@
 "use client";
 
-import { JSX, PropsWithoutRef, useContext, useEffect, useState } from 'react';
-import dayjs from 'dayjs';
-import styles from './CurrentWeather.module.css';
-import classNames from 'classnames';
-import getUrl from '@/utils/getUrl';
-import UserLocationContext from '@/contexts/UserLocationContext';
+import { JSX, PropsWithoutRef, useContext, useEffect, useState } from "react";
+import dayjs from "dayjs";
+import styles from "./CurrentWeather.module.css";
+import classNames from "classnames";
+import getUrl from "@/utils/getUrl";
+import UserLocationContext from "@/contexts/UserLocationContext";
 
 type CurrentWeatherProps = PropsWithoutRef<JSX.IntrinsicElements["div"]>;
 
@@ -52,14 +52,14 @@ export default function CurrentWeather({ className, ...props }: CurrentWeatherPr
   if (!city) return null;
   if (!conditions) return null;
 
-  const { Value, Unit } = temperatureUnit === "metric"
+  const { Unit, Value } = temperatureUnit === "metric"
     ? conditions.Temperature.Metric
     : conditions.Temperature.Imperial;
 
   return (
     <div {...props} className={classNames(styles["current-weather"], className)}>
       <h2 className={styles.title}>
-        {city.AdministrativeArea.LocalizedName}, {city.Country.ID}
+        {`${ city.AdministrativeArea.LocalizedName }, ${city.Country.ID}`}
       </h2>
 
       <div className={styles["degree-wrapper"]}>

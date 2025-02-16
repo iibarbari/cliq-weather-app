@@ -1,29 +1,19 @@
 "use client";
 
 import styles from "./DailyEvolution.module.css";
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import UserLocationContext from '@/contexts/UserLocationContext';
-import getUrl from '@/utils/getUrl';
-import dayjs from 'dayjs';
-import classNames from 'classnames';
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import UserLocationContext from "@/contexts/UserLocationContext";
+import getUrl from "@/utils/getUrl";
+import dayjs from "dayjs";
+import classNames from "classnames";
 
 type DailyEvolution = {
-  "DateTime": string,
-  "EpochDateTime": number,
-  "WeatherIcon": number,
-  "IconPhrase": string,
-  "HasPrecipitation": boolean,
-  "PrecipitationType": string,
-  "PrecipitationIntensity": string,
-  "IsDaylight": boolean,
-  "Temperature": {
-    "Value": number,
-    "Unit": "F" | "C",
-    "UnitType": number
+  DateTime: string,
+  Temperature: {
+    Unit: "F" | "C",
+    UnitType: number,
+    Value: number
   },
-  "PrecipitationProbability": number,
-  "MobileLink": string,
-  "Link": string
 }
 
 const WIDTH = 600;
@@ -35,7 +25,7 @@ const INNER_WIDTH = WIDTH - MARGIN * 2;
 const observerOptions = {
   root: null,
   rootMargin: "0px",
-  threshold: 0.4
+  threshold: 0.8
 };
 
 export default function DailyEvolution() {
@@ -144,7 +134,7 @@ export default function DailyEvolution() {
   if (city === null) return null;
 
   return (
-    <div ref={ref} className={styles.daily_evolution}>
+    <div className={styles.daily_evolution} ref={ref}>
       <h2 className={styles.title}>Daily Evolution</h2>
 
       {dailyEvolutions.length > 0 && (
@@ -156,25 +146,25 @@ export default function DailyEvolution() {
           <g transform={`translate(${MARGIN}, ${MARGIN})`}>
             <path
               d={curvedPoints}
+              fill="none"
               stroke="#F48403"
               strokeWidth="3"
-              fill="none"
             />
 
             {dataPoints.map(([x, y]) => (
-              <circle key={`${x}-${y}`} cx={x} cy={y} r="5" fill="#F48403" />
+              <circle cx={x} cy={y} fill="#F48403" key={`${x}-${y}`} r="5" />
             ))}
 
             {hydratedData.map(({ date }, i, arr) => (
               <text
                 className={styles.text}
-                key={date}
-                x={MARGIN + ((INNER_WIDTH - 2 * MARGIN) / (arr.length - 1) * i)}
-                y={INNER_HEIGHT + 10}
-                textAnchor="middle"
+                fill="#ffffff"
                 fontSize="1em"
                 fontWeight={700}
-                fill="#ffffff"
+                key={date}
+                textAnchor="middle"
+                x={MARGIN + ((INNER_WIDTH - 2 * MARGIN) / (arr.length - 1) * i)}
+                y={INNER_HEIGHT + 10}
               >
                 {dayjs(date).format("HH:mm")}
               </text>

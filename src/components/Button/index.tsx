@@ -1,4 +1,4 @@
-import { JSX, PropsWithoutRef } from 'react';
+import { JSX, PropsWithoutRef } from "react";
 
 type Props = PropsWithoutRef<JSX.IntrinsicElements["button"]>
 

@@ -2,17 +2,17 @@
     padding-block: 5rem;
 
     .title {
-        font-weight: 900;
+        font-weight: 700;
         font-size: 2.5rem;
         line-height: 1.2;
         margin-bottom: 3rem;
+        text-transform: uppercase;
     }
 
     .line_graph {
         display: block;
     }
 }
-
 
 @media (prefers-reduced-motion: no-preference) {
     .daily_evolution {
