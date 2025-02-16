@@ -4,7 +4,7 @@ import styles from "./Header.module.css";
 import { JSX, PropsWithoutRef } from "react";
 import classNames from "classnames";
 
-type HeaderProps = Omit<PropsWithoutRef<JSX.IntrinsicElements["header"]>, "children">
+export type HeaderProps = Omit<PropsWithoutRef<JSX.IntrinsicElements["header"]>, "children">
 
 export default function Header({ className, ...props }: HeaderProps) {
   return (

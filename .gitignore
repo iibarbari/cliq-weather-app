@@ -47,4 +47,5 @@ next-env.d.ts
 *storybook.log
 
 # jest
+__snapshots__/
 *.test.tsx.snap
