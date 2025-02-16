@@ -55,7 +55,7 @@ export default function FiveDayForecast({ className, ...props }: FiveDayForecast
     }
 
     getFiveDayForecast();
-  }, [city]);
+  }, [city, temperatureUnit]);
 
   if (!city) return null;
 

@@ -4,7 +4,6 @@ import "./globals.css";
 import Header from '../components/Header';
 import { ReactNode } from 'react';
 import classNames from 'classnames';
-import UserLocationContextProvider from '@/components/UserLocationContextProvider';
 
 const roboto = Roboto({
   subsets: ["latin"],

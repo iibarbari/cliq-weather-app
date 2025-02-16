@@ -79,15 +79,18 @@ export default function DailyEvolution() {
       });
     }
 
+    let observerRefValue = null;
+
     const observer = new IntersectionObserver((entries) => startAnimation(entries, observer), observerOptions);
 
     if (ref.current) {
       observer.observe(ref.current);
+      observerRefValue = ref.current;
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      if (observerRefValue) {
+        observer.unobserve(observerRefValue);
       }
     };
   }, [city, ref]);

@@ -60,7 +60,7 @@ export default function UserLocationContextProvider({ children }: { children: Re
     setCity,
     temperatureUnit,
     setTemperatureUnit,
-  }), [city, temperatureUnit, geoLocation]);
+  }), [city, temperatureUnit]);
 
   return (
     <UserLocationContext.Provider value={values}>
