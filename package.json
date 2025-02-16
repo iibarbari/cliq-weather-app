@@ -10,7 +10,8 @@
     "preinstall": "npx only-allow pnpm",
     "start": "next start",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepare": "husky"
   },
   "dependencies": {
     "classnames": "^2.5.1",
@@ -39,6 +40,7 @@
     "eslint-plugin-storybook": "^0.11.2",
     "eslint-plugin-typescript-sort-keys": "^3.3.0",
     "globals": "^15.15.0",
+    "husky": "^9.1.7",
     "storybook": "^8.5.6",
     "stylelint": "^16.14.1",
     "stylelint-config-standard-scss": "^14.0.0",
