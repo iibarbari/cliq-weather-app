@@ -12,13 +12,11 @@ const roboto = Roboto({
 const preview: Preview = {
   decorators: [
     (Story) => (
-      <html lang="en">
-        <body className={roboto.variable}>
-          <main>
-            <Story />
-          </main>
-        </body>
-      </html>
+      <main className={roboto.className}>
+        <div style={{ margin: "2rem" }}>
+          <Story />
+        </div>
+      </main>
     ),
   ],
   parameters: {
