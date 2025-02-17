@@ -13,9 +13,7 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <main className={roboto.className}>
-        <div style={{ margin: "2rem" }}>
-          <Story />
-        </div>
+        <Story />
       </main>
     ),
   ],
