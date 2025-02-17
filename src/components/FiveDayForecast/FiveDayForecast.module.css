@@ -1,4 +1,6 @@
 .five_day_forecast {
+    padding-block: 5rem;
+
     .title {
         color: var(--primary);
         font-size: 2.25rem;

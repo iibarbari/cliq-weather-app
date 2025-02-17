@@ -1,0 +1,13 @@
+.error_wrapper {
+    margin-block: 5rem;
+    text-align: center;
+
+    .title {
+        color: var(--primary);
+        font-size: 2.25rem;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 3rem;
+        text-transform: uppercase;
+    }
+}

@@ -1,18 +1,29 @@
 "use client";
 
-import UserLocationContext, { City, UserLocationContextType } from "@/contexts/UserLocationContext";
+import UserLocationContext, { UserLocationContextType } from "@/contexts/UserLocationContext";
 import { ReactNode, useEffect, useMemo, useState } from "react";
+import getUrl from "@/utils/getUrl";
+import Container from "@/components/Container";
+import styles from "./UserLocationContextProvider.module.css";
 
 export default function UserLocationContextProvider({ children }: { children: ReactNode }) {
   const [permission, setPermission] = useState<PermissionState | null>(null);
   const [geoLocation, setGeoLocation] = useState<GeolocationCoordinates | null>(null);
   const [city, setCity] = useState<UserLocationContextType["city"] | null>(null);
   const [temperatureUnit, setTemperatureUnit] = useState<UserLocationContextType["temperatureUnit"]>("metric");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [hasError, setHasError] = useState<boolean>(false);
 
   useEffect(() => {
-    navigator.permissions.query({ name: "geolocation" }).then((result) => {
-      setPermission(result.state);
-    });
+    setIsLoading(true);
+
+    navigator.permissions.query({ name: "geolocation" })
+      .then((result) => {
+        setPermission(result.state);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -31,24 +42,21 @@ export default function UserLocationContextProvider({ children }: { children: Re
     const { latitude, longitude } = geoLocation;
 
     async function getCityName(latitude: number, longitude: number) {
-      const apiKey = process.env.NEXT_PUBLIC_ACCUWEATHER_API_KEY;
-
-      if (!apiKey) throw new Error("API key is required");
-
-      const searchParams = new URLSearchParams({
-        apikey: apiKey,
-        q: `${latitude},${longitude}`,
-      });
-
-      const url = `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?${searchParams.toString()}`;
+      setIsLoading(true);
+      setHasError(false);
 
       try {
-        const response = await fetch(url);
-        const data: City = await response.json();
+        const url = getUrl(`/locations/v1/cities/geoposition/search`, { q: `${latitude},${longitude}` });
 
-        return data;
+        const response = await fetch(url);
+
+        if (!response.ok) throw new Error("Failed to fetch city name");
+
+        return await response.json();
       } catch {
-        throw new Error("Failed to fetch city name");
+        setHasError(true);
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -57,14 +65,27 @@ export default function UserLocationContextProvider({ children }: { children: Re
 
   const values = useMemo<UserLocationContextType>(() => ({
     city,
+    isLoading,
     setCity,
     setTemperatureUnit,
     temperatureUnit,
-  }), [city, temperatureUnit]);
+  }), [city, isLoading, temperatureUnit]);
 
   return (
     <UserLocationContext.Provider value={values}>
-      {children}
+      {hasError ? (
+        <Container className={styles.error_wrapper}>
+          <h1 className={styles.title}>Something went wrong.</h1>
+
+          <p>
+            AccuWeather API is not available at the moment. Please contact with
+            {" "}
+            <a href="mailto:ilknur@sari.me">ilknur@sari.me</a>
+            {" "}
+            or try again later.
+          </p>
+        </Container>
+      ) : children}
     </UserLocationContext.Provider>
   );
 }

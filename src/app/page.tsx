@@ -8,7 +8,6 @@ import DailyEvolution from "@/components/DailyEvolution";
 import classNames from "classnames";
 
 export default function Home() {
-
   return (
     <div className={styles.page}>
       <UserLocationContextProvider>

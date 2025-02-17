@@ -2,11 +2,4 @@
     .dark {
         background-color: var(--background-dark);
     }
-
-    .city_name_form,
-    .current_weather,
-    .daily_evolution,
-    .five_day_forecast {
-        padding-block: 5rem;
-    }
 }

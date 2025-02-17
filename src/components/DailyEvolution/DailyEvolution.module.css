@@ -1,4 +1,6 @@
 .daily_evolution {
+    padding-block: 5rem;
+
     .title {
         font-size: 2.5rem;
         font-weight: 700;

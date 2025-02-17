@@ -25,11 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en">
     <body className={classNames(roboto.variable)}>
-      <Header />
+    <Header />
 
-      <main>
-        {children}
-      </main>
+    <main>
+      {children}
+    </main>
     </body>
     </html>
   );
