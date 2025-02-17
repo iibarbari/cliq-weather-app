@@ -64,14 +64,6 @@ const mockDelayedSearch = (delay = 500) => {
 };
 
 describe("CitySearch", () => {
-  beforeEach(() => {
-    jest.useFakeTimers();
-  });
-
-  afterEach(() => {
-    jest.useRealTimers();
-  });
-
   describe("error handling", () => {
     test("handles error state", async () => {
       mockFailedSearch();
