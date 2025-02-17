@@ -5,17 +5,42 @@
     justify-content: center;
     padding-block: 5rem;
 
+    .error {
+        font-size: 1.25rem;
+        line-height: 1.2;
+    }
+
     .title {
         font-size: 2.5rem;
         font-weight: 900;
         line-height: 1.2;
+        margin-bottom: 1rem;
     }
 
     .degree_wrapper {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+
         .degree {
             color: var(--primary);
             font-size: 6rem;
             line-height: 1.16;
+        }
+
+        .button_group {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            gap: 0.5rem;
+
+            .is_active {
+                background-color: var(--primary);
+                color: var(--background);
+            }
         }
     }
 

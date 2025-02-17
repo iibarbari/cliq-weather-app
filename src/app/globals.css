@@ -32,6 +32,43 @@ a {
     text-decoration: none;
 }
 
+button {
+    appearance: none;
+    background-color: var(--background);
+    border: none;
+    border-radius: 0.25rem;
+    color: var(--foreground);
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.5;
+    padding: .75rem 1rem;
+    text-align: center;
+    text-transform: uppercase;
+    transition: background-color .25s;
+    user-select: none;
+
+    &:not(:disabled) {
+        &:hover {
+            background-color: rgba(var(--primary-rgb), .9);
+        }
+
+        &:focus, &:focus-visible {
+            box-shadow: 0 0 0 .25rem rgba(var(--primary-rgb), .25);
+            outline: 0;
+        }
+
+        &:active {
+            background-color: rgba(var(--primary-rgb), .8);
+        }
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
 fieldset {
     border: none;
 }

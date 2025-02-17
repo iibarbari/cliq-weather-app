@@ -11,3 +11,9 @@
         text-transform: uppercase;
     }
 }
+
+.loader_wrapper {
+    display: flex;
+    justify-content: center;
+    margin-block: 5rem;
+}

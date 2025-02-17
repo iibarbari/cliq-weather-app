@@ -14,4 +14,20 @@ type City = {
   Version: number,
 }
 
+type CurrentConditionsRes = {
+  Temperature: {
+    Imperial: {
+      Unit: string;
+      UnitType: number;
+      Value: number;
+    };
+    Metric: {
+      Unit: string;
+      UnitType: number;
+      Value: number;
+    };
+  }
+  WeatherText: string;
+}
+
 type TemperatureUnit = "imperial" | "metric";

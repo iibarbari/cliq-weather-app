@@ -1,72 +1,105 @@
 "use client";
 
-import { JSX, PropsWithoutRef, useContext, useEffect, useState } from "react";
+import { JSX, PropsWithoutRef, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import styles from "./CurrentWeather.module.css";
 import classNames from "classnames";
 import getUrl from "@/utils/getUrl";
 import UserLocationContext from "@/contexts/UserLocationContext";
+import Loader from "@/components/Loader";
 
 type CurrentWeatherProps = PropsWithoutRef<JSX.IntrinsicElements["div"]>;
 
-type CurrentConditionsRes = {
-  Temperature: {
-    Imperial: {
-      Unit: string;
-      UnitType: number;
-      Value: number;
-    };
-    Metric: {
-      Unit: string;
-      UnitType: number;
-      Value: number;
-    };
-  }
-  WeatherText: string;
-}
-
 export default function CurrentWeather({ className, ...props }: CurrentWeatherProps) {
-  const { city, temperatureUnit } = useContext(UserLocationContext);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [hasError, setHasError] = useState<boolean>(false);
+  const { city, setTemperatureUnit, temperatureUnit } = useContext(UserLocationContext);
   const [conditions, setConditions] = useState<CurrentConditionsRes | null>(null);
 
-  useEffect(() => {
-    if (city === null) return;
+  const getCurrentConditions = useCallback(async (city: City) => {
+    try {
+      setIsLoading(true);
 
-    async function getCurrentConditions() {
-      if (city === null) return;
+      const url = getUrl(`/currentconditions/v1/${city.Key}`);
+      const res = await fetch(url);
 
-      try {
-        const url = getUrl(`/currentconditions/v1/${city.Key}`);
-        const res = await fetch(url);
-        const data: Array<CurrentConditionsRes> = await res.json();
-
-        setConditions(data[0]);
-      } catch {
-        return null;
+      if (!res.ok) {
+        throw new Error("Failed to fetch current conditions");
       }
-    }
 
-    getCurrentConditions();
-  }, [city]);
+      const data: Array<CurrentConditionsRes> = await res.json();
+
+      setConditions(data[0]);
+    } catch {
+      setHasError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!city) return;
+
+    getCurrentConditions(city);
+  }, [city, getCurrentConditions]);
+
+  const temperature = useMemo(() => {
+    if (!conditions) return null;
+
+    return temperatureUnit === "metric"
+      ? Math.round(conditions.Temperature.Metric.Value)
+      : Math.round(conditions.Temperature.Imperial.Value);
+  }, [conditions, temperatureUnit]);
 
   if (!city) return null;
-  if (!conditions) return null;
 
-  const { Unit, Value } = temperatureUnit === "metric"
-    ? conditions.Temperature.Metric
-    : conditions.Temperature.Imperial;
+  if (isLoading) {
+    return (
+      <Loader color="primary" data-testid="loader" />
+    );
+  }
+
+  if (hasError) {
+    return (
+      <p className={styles.error} data-testid="error">Failed to fetch current conditions</p>
+    );
+  }
+
+  if (!conditions) return null;
 
   return (
     <div {...props} className={classNames(styles.current_weather, className)}>
-      <h2 className={styles.title}>
-        {`${ city.AdministrativeArea.LocalizedName }, ${city.Country.ID}`}
-      </h2>
+      <div data-testid="current-weather-display">
+        <h2 className={styles.title}>
+          {`${city.AdministrativeArea.LocalizedName}, ${city.Country.ID}`}
+        </h2>
 
-      <div className={styles.degree_wrapper}>
-        <p className={styles.degree}>{`${Value}°${Unit}`}</p>
+        <div className={styles.degree_wrapper}>
+          <p className={styles.degree}>{`${temperature}`}</p>
+
+          <div className={styles.button_group}>
+            <button
+              className={classNames(temperatureUnit === "metric" && styles.is_active)}
+              data-testid="celsius-button"
+              disabled={temperatureUnit === "metric"}
+              onClick={() => setTemperatureUnit("metric")}
+            >
+              °C
+            </button>
+
+            <button
+              className={classNames(temperatureUnit === "imperial" && styles.is_active)}
+              data-testid="fahrenheit-button"
+              disabled={temperatureUnit === "imperial"}
+              onClick={() => setTemperatureUnit("imperial")}
+            >
+              °F
+            </button>
+          </div>
+        </div>
+
+        <p className={styles.summary}>{`${dayjs().format("dddd")}, ${conditions.WeatherText}`}</p>
       </div>
-
-      <p className={styles.summary}>{`${dayjs().format("dddd")}, ${conditions.WeatherText}`}</p>
     </div>
   );
 }
