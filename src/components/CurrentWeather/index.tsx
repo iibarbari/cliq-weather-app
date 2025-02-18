@@ -7,11 +7,12 @@ import classNames from "classnames";
 import getUrl from "@/utils/getUrl";
 import UserLocationContext from "@/contexts/UserLocationContext";
 import Loader from "@/components/Loader";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 type CurrentWeatherProps = PropsWithoutRef<JSX.IntrinsicElements["div"]>;
 
 export default function CurrentWeather({ className, ...props }: CurrentWeatherProps) {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasError, setHasError] = useState<boolean>(false);
   const { city, setTemperatureUnit, temperatureUnit } = useContext(UserLocationContext);
   const [conditions, setConditions] = useState<CurrentConditionsRes | null>(null);
@@ -55,51 +56,57 @@ export default function CurrentWeather({ className, ...props }: CurrentWeatherPr
 
   if (isLoading) {
     return (
-      <Loader color="primary" data-testid="loader" />
+      <div {...props} className={classNames(styles.current_weather, className)}>
+        <Loader color="primary" data-testid="loader" />
+      </div>
     );
   }
 
   if (hasError) {
     return (
-      <p className={styles.error} data-testid="error">Failed to fetch current conditions</p>
+      <div {...props} className={classNames(styles.current_weather, className)}>
+        <p className={styles.error} data-testid="error">Failed to fetch current conditions</p>
+      </div>
     );
   }
 
-  if (!conditions) return null;
-
   return (
-    <div {...props} className={classNames(styles.current_weather, className)}>
-      <div data-testid="current-weather-display">
-        <h2 className={styles.title}>
-          {`${city.AdministrativeArea.LocalizedName}, ${city.Country.ID}`}
-        </h2>
+    <ErrorBoundary fallback={null}>
+      <div {...props} className={classNames(styles.current_weather, className)}>
+        <div data-testid="current-weather-display">
+          <h2 className={styles.title}>
+            {`${city.AdministrativeArea.LocalizedName}, ${city.Country.ID}`}
+          </h2>
 
-        <div className={styles.degree_wrapper}>
-          <p className={styles.degree}>{`${temperature}`}</p>
+          <div className={styles.degree_wrapper}>
+            <p className={styles.degree}>{`${temperature}`}</p>
 
-          <div className={styles.button_group}>
-            <button
-              className={classNames(temperatureUnit === "metric" && styles.is_active)}
-              data-testid="celsius-button"
-              disabled={temperatureUnit === "metric"}
-              onClick={() => setTemperatureUnit("metric")}
-            >
-              °C
-            </button>
+            <div className={styles.button_group}>
+              <button
+                className={classNames(temperatureUnit === "metric" && styles.is_active)}
+                data-testid="celsius-button"
+                disabled={temperatureUnit === "metric"}
+                onClick={() => setTemperatureUnit("metric")}
+              >
+                °C
+              </button>
 
-            <button
-              className={classNames(temperatureUnit === "imperial" && styles.is_active)}
-              data-testid="fahrenheit-button"
-              disabled={temperatureUnit === "imperial"}
-              onClick={() => setTemperatureUnit("imperial")}
-            >
-              °F
-            </button>
+              <button
+                className={classNames(temperatureUnit === "imperial" && styles.is_active)}
+                data-testid="fahrenheit-button"
+                disabled={temperatureUnit === "imperial"}
+                onClick={() => setTemperatureUnit("imperial")}
+              >
+                °F
+              </button>
+            </div>
           </div>
-        </div>
 
-        <p className={styles.summary}>{`${dayjs().format("dddd")}, ${conditions.WeatherText}`}</p>
+          {conditions !== null && (
+            <p className={styles.summary}>{`${dayjs().format("dddd")}, ${conditions.WeatherText}`}</p>
+          )}
+        </div>
       </div>
-    </div>
+    </ErrorBoundary>
   );
 }

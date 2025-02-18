@@ -55,7 +55,7 @@ export default function CitySearch() {
   }, [getSearchResults, search]);
 
   return (
-    <ErrorBoundary fallback={<div>Something went wrong</div>}>
+    <ErrorBoundary fallback={null}>
       <div className={styles.city_search}>
         <div className={styles.form_group}>
           <label htmlFor="city-name">City Name</label>

@@ -1,12 +1,14 @@
 "use client";
 
 import styles from "./DailyEvolution.module.css";
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import UserLocationContext from "@/contexts/UserLocationContext";
 import getUrl from "@/utils/getUrl";
 import dayjs from "dayjs";
 import classNames from "classnames";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
+import Loader from "@/components/Loader";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 type DailyEvolution = {
   DateTime: string,
@@ -25,9 +27,11 @@ const INNER_WIDTH = WIDTH - MARGIN * 2;
 
 export default function DailyEvolution() {
   const ref = useRef<HTMLDivElement>(null);
-  const { city } = useContext(UserLocationContext);
   const [animated, setAnimated] = useState<boolean>(false);
   const [dailyEvolutions, setDailyEvolutions] = useState<Array<DailyEvolution>>([]);
+  const [hasError, setHasError] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { city, temperatureUnit } = useContext(UserLocationContext);
 
   useIntersectionObserver({
     callback: (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
@@ -43,26 +47,34 @@ export default function DailyEvolution() {
     ref
   });
 
+  const getDailyEvolution = useCallback(async (city: City, temperatureUnit: TemperatureUnit) => {
+    if (city === null) return;
+
+    try {
+      setIsLoading(true);
+      setHasError(false);
+
+      /* NOTE: 24 hour is on the paid plan */
+      const url = getUrl(`/forecasts/v1/hourly/12hour/${city.Key}`, { metric: temperatureUnit === "metric" });
+      const res = await fetch(url);
+
+      if (!res.ok) throw new Error("Failed to fetch daily evolution data");
+
+      const data = await res.json();
+
+      setDailyEvolutions(data);
+    } catch {
+      setHasError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     if (city === null) return;
 
-    async function getDailyEvolution() {
-      if (city === null) return;
-
-      try {
-        /* NOTE: 24 hour is on the paid plan */
-        const url = getUrl(`/forecasts/v1/hourly/12hour/${city.Key}`);
-        const res = await fetch(url);
-        const data = await res.json();
-
-        setDailyEvolutions(data);
-      } catch {
-        throw new Error("Failed to fetch daily evolution data");
-      }
-    }
-
-    getDailyEvolution();
-  }, [city]);
+    getDailyEvolution(city, temperatureUnit);
+  }, [city, temperatureUnit]);
 
   const hydratedData = useMemo<Array<{ date: string; value: number }>>(() => {
     if (dailyEvolutions.length === 0) return [];
@@ -112,44 +124,54 @@ export default function DailyEvolution() {
   if (city === null) return null;
 
   return (
-    <div className={styles.daily_evolution} ref={ref}>
-      <h2 className={styles.title}>Daily Evolution</h2>
+    <ErrorBoundary fallback={null}>
+      <div className={styles.daily_evolution} ref={ref}>
+        {isLoading ? (
+          <Loader className={styles.loader} color="primary" />
+        ) : hasError ? (
+          <p className={styles.error}>Failed to fetch daily evolution data</p>
+        ) : (
+          <>
+            <h2 className={styles.title}>Daily Evolution</h2>
 
-      {dailyEvolutions.length > 0 && (
-        <svg
-          className={classNames(styles.line_graph, animated && styles.animate)}
-          viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-          width="100%"
-        >
-          <g transform={`translate(${MARGIN}, ${MARGIN})`}>
-            <path
-              d={curvedPoints}
-              fill="none"
-              stroke="#F48403"
-              strokeWidth="3"
-            />
-
-            {dataPoints.map(([x, y]) => (
-              <circle cx={x} cy={y} fill="#F48403" key={`${x}-${y}`} r="5" />
-            ))}
-
-            {hydratedData.map(({ date }, i, arr) => (
-              <text
-                className={styles.text}
-                fill="#ffffff"
-                fontSize="1em"
-                fontWeight={700}
-                key={date}
-                textAnchor="middle"
-                x={MARGIN + ((INNER_WIDTH - 2 * MARGIN) / (arr.length - 1) * i)}
-                y={INNER_HEIGHT + 10}
+            {dailyEvolutions.length > 0 && (
+              <svg
+                className={classNames(styles.line_graph, animated && styles.animate)}
+                viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+                width="100%"
               >
-                {dayjs(date).format("HH:mm")}
-              </text>
-            ))}
-          </g>
-        </svg>
-      )}
-    </div>
+                <g transform={`translate(${MARGIN}, ${MARGIN})`}>
+                  <path
+                    d={curvedPoints}
+                    fill="none"
+                    stroke="#F48403"
+                    strokeWidth="3"
+                  />
+
+                  {dataPoints.map(([x, y]) => (
+                    <circle cx={x} cy={y} fill="#F48403" key={`${x}-${y}`} r="5" />
+                  ))}
+
+                  {hydratedData.map(({ date }, i, arr) => (
+                    <text
+                      className={styles.text}
+                      fill="#ffffff"
+                      fontSize="1em"
+                      fontWeight={700}
+                      key={date}
+                      textAnchor="middle"
+                      x={MARGIN + ((INNER_WIDTH - 2 * MARGIN) / (arr.length - 1) * i)}
+                      y={INNER_HEIGHT + 10}
+                    >
+                      {dayjs(date).format("HH:mm")}
+                    </text>
+                  ))}
+                </g>
+              </svg>
+            )}
+          </>
+        )}
+      </div>
+    </ErrorBoundary>
   );
 }

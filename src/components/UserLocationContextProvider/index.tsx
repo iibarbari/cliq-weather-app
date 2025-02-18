@@ -6,6 +6,7 @@ import getUrl from "@/utils/getUrl";
 import Container from "@/components/Container";
 import styles from "./UserLocationContextProvider.module.css";
 import Loader from "@/components/Loader";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 export default function UserLocationContextProvider({ children }: { children: ReactNode }) {
   const [city, setCity] = useState<UserLocationContextType["city"] | null>(null);
@@ -37,7 +38,7 @@ export default function UserLocationContextProvider({ children }: { children: Re
   }), []);
 
   useEffect(() => {
-    navigator.permissions.query({ name: "geolocation" }).then((result) => setPermission(result.state))
+    navigator.permissions.query({ name: "geolocation" }).then((result) => setPermission(result.state));
   }, []);
 
   useEffect(() => {
@@ -46,7 +47,6 @@ export default function UserLocationContextProvider({ children }: { children: Re
     if (permission === "granted" || permission === "prompt") {
       navigator.geolocation.getCurrentPosition(
         (position) => setGeoLocation(position.coords),
-        (error) => console.error(error)
       );
     }
   }, [permission]);
@@ -57,7 +57,7 @@ export default function UserLocationContextProvider({ children }: { children: Re
     const { latitude, longitude } = geoLocation;
 
     getCityName(latitude, longitude);
-  }, [geoLocation]);
+  }, [geoLocation, getCityName]);
 
   const values = useMemo<UserLocationContextType>(() => ({
     city,
@@ -67,24 +67,26 @@ export default function UserLocationContextProvider({ children }: { children: Re
   }), [city, temperatureUnit]);
 
   return (
-    <UserLocationContext.Provider value={values}>
-      {isLoading ? (
-        <Container className={styles.loader_wrapper}>
-          <Loader />
-        </Container>
-      ) : hasError ? (
-        <Container className={styles.error_wrapper}>
-          <h1 className={styles.title}>Something went wrong.</h1>
+    <ErrorBoundary fallback={null}>
+      <UserLocationContext.Provider value={values}>
+        {isLoading ? (
+          <Container className={styles.loader_wrapper}>
+            <Loader />
+          </Container>
+        ) : hasError ? (
+          <Container className={styles.error_wrapper}>
+            <h1 className={styles.title}>Something went wrong.</h1>
 
-          <p>
-            AccuWeather API is not available at the moment. Please contact with
-            {" "}
-            <a href="mailto:ilknur@sari.me">ilknur@sari.me</a>
-            {" "}
-            or try again later.
-          </p>
-        </Container>
-      ) : children}
-    </UserLocationContext.Provider>
+            <p>
+              AccuWeather API is not available at the moment. Please contact with
+              {" "}
+              <a href="mailto:ilknur@sari.me">ilknur@sari.me</a>
+              {" "}
+              or try again later.
+            </p>
+          </Container>
+        ) : children}
+      </UserLocationContext.Provider>
+    </ErrorBoundary>
   );
 }

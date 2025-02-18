@@ -1,5 +1,17 @@
 .daily_evolution {
+    display: flex;
+    flex-direction: column;
     padding-block: 5rem;
+
+    .loader {
+        align-self: center;
+    }
+
+    .error {
+        font-size: 1.25rem;
+        line-height: 1.2;
+        align-self: center;
+    }
 
     .title {
         font-size: 2.5rem;

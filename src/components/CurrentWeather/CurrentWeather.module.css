@@ -19,10 +19,9 @@
 
     .degree_wrapper {
         display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
+        flex-flow: row wrap;
         gap: 1rem;
+        justify-content: space-between;
         margin-bottom: 1.5rem;
 
         .degree {
@@ -34,8 +33,8 @@
         .button_group {
             display: flex;
             flex-direction: column;
-            justify-content: space-around;
             gap: 0.5rem;
+            justify-content: space-around;
 
             .is_active {
                 background-color: var(--primary);
