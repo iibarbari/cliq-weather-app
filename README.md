@@ -3,8 +3,8 @@
 A modern weather application built with Next.js that provides real-time weather information and forecasts. Users can
 search for cities, view current weather conditions, and access 5-day forecasts with daily weather evolution charts.
 
-- 🔗 Live Demo: [Weather App](https://cliq-weather-app-storybook.vercel.app/)
-- 📚 Storybook: [Component Library](https://cliq-weather-app.vercel.app/)
+- 🔗 Live Demo: [Weather App](https://cliq-weather-app.vercel.app/)
+- 📚 Storybook: [Component Library](https://cliq-weather-app-storybook.vercel.app/)
 
 ## Features
 

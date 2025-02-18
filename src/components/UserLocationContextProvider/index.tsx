@@ -78,7 +78,7 @@ export default function UserLocationContextProvider({ children }: { children: Re
             <h1 className={styles.title}>Something went wrong.</h1>
 
             <p>
-              AccuWeather API is not available at the moment. Please contact with
+              AccuWeather API is not available at the moment. Please contact
               {" "}
               <a href="mailto:ilknur@sari.me">ilknur@sari.me</a>
               {" "}
