@@ -8,9 +8,9 @@
     }
 
     .error {
+        align-self: center;
         font-size: 1.25rem;
         line-height: 1.2;
-        align-self: center;
     }
 
     .title {

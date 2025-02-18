@@ -74,7 +74,7 @@ export default function DailyEvolution() {
     if (city === null) return;
 
     getDailyEvolution(city, temperatureUnit);
-  }, [city, temperatureUnit]);
+  }, [city, temperatureUnit, getDailyEvolution]);
 
   const hydratedData = useMemo<Array<{ date: string; value: number }>>(() => {
     if (dailyEvolutions.length === 0) return [];
