@@ -25,7 +25,7 @@
         display: block;
 
         &.animate {
-            path {
+            .path {
                 stroke-dasharray: 1000;
                 stroke-dashoffset: 1000;
             }
@@ -37,7 +37,7 @@
     .daily_evolution {
         .line_graph {
             &.animate {
-                path {
+                .path {
                     animation: dash 3s linear forwards;
                     stroke-dasharray: 1000;
                     stroke-dashoffset: 1000;

@@ -70,6 +70,7 @@ export default function FiveDayForecast({ className, ...props }: FiveDayForecast
                     <div className={styles.icon}>
                       <Image
                         alt={IconPhrase}
+                        className={styles.image}
                         fill={true}
                         loading="lazy"
                         sizes="80px"

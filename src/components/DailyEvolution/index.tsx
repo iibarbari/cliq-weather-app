@@ -142,6 +142,7 @@ export default function DailyEvolution() {
               >
                 <g transform={`translate(${MARGIN}, ${MARGIN})`}>
                   <path
+                    className={styles.path}
                     d={curvedPoints}
                     fill="none"
                     stroke="#F48403"
